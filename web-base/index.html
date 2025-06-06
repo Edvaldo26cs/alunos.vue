@@ -1,0 +1,134 @@
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebBase from QA Ninja </title>
+    <script src="js/vue.js"></script>
+    <!--biblioteca vue.js que baixa no site oficial e coloca na mesma pasta do projeto-->
+</head>
+
+<body>
+    <div id="app">
+        <h1>Cadastro de alunos</h1>
+
+        <form><!--v-model no input faz escrever em tempo real, o que digitar no campo-->
+            <label for="nomeCompleto">Nome Completo</label>
+            <input name="nomeCompleto" type="text" v-model="form.nome">
+
+            <label for="email">Email</label>
+            <input name="email" type="text" v-model="form.email">
+
+            <label for="nota">Nota</label>
+            <input name="nota" type="text" v-model="form.nota">
+
+            <input type="button" value="Cadastrar" @click="adicionarAluno"><!--@click faz a ação do botão-->
+        </form>
+
+        <span><!--faz parte do v-model no input faz escrever em tempo real, o que digitar no campo-->
+            {{form.nome}} - {{form.email}} - {{form.nota}} 
+        </span>
+
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Nota</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="aluno in alunos">
+                        <td>{{ aluno.nome }}</td>
+                        <td>{{ aluno.email }}</td>
+                        <td>{{ aluno.nota }}</td>
+                        <td>
+                            <button class="danger" @click="apagarAluno(aluno)">Apagar</button><!--@click faz a ação do botão-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--O app é o vue para usar o id da div de cadastro do aluno e dentro da script, é o vue-->
+    <!--form é onde faz aparecer em tempo real, indicando que vai escrever-->
+    <!--push para adicionar elementos-->
+    <!--splice para remover elementos-->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                form: {
+                    nome: '',
+                    email: '',
+                    nota: ''
+                },
+                alunos: [
+                    { nome: 'Edvaldo cavalcanti', email: 'edvaldonetto@hotmail.com', nota: 10 }
+                ]
+                },
+               methods: {
+                limpaFormulario: function () {
+                    this.form = {
+                        nome: '',
+                        email: '',
+                        nota: ''
+                    }
+                },
+                adicionarAluno: function () {
+                    this.alunos.push(this.form)
+                    this.limpaFormulario()
+                },
+                apagarAluno: function(aluno) {
+                    var posicao = this.alunos.indexOf(aluno)
+                    this.alunos.splice(posicao, 1)
+
+                }
+            }        
+        })
+
+    </script>
+
+    <!--Para utilizar o css no Vue.js, basta adicionar style com a classe que queira alterar-->
+    <style> 
+        .table {
+            margin-top: 20px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .table th, 
+        .table td {
+            border: 1px solid #ccc;
+        }
+
+        .table th:last-child
+        .table td:last-child {
+            text-align: right;
+        }
+
+        .danger {
+            background-color: #E91E63;
+            border-color: #E91E63;
+            color: #eee;
+        }
+
+        input {
+            display: block;
+        }
+
+        input[type=button] {
+            background-color: #3F51B5;
+            border-color: #3F51B5;
+            margin-top: 10px;
+            color: #eee;
+        }
+            
+    </style>
+
+</body>
+
+</html>
